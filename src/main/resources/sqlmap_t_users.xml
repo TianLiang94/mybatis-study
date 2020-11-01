@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--注入接口名-->
+<mapper namespace="study.mybatis01.dao.UserDao">
+    <!--插入数据-->
+    <insert id="insertUser">
+        insert into t_users ( name ,password , sex, brithday, regisTime)
+        values(#{name}, #{password}, #{sex} , #{brithday}, #{regisTime})
+        <selectKey keyProperty="id" resultType="int" order="AFTER">
+            select last_insert_id()
+        </selectKey>
+    </insert>
+    <!--根据主键id查找对象-->
+    <select id="selectUserById" resultType="study.mybatis01.entity.User">
+        select * from t_users
+        where id = #{arg0};
+    </select>
+
+    <select id="selectUserByIdAndPwd" resultType="study.mybatis01.entity.User">
+        select * from t_users
+        where id = #{id}
+        and password = #{password} ;
+    </select>
+
+    <select id="selectUserByName" resultType="study.mybatis01.entity.User">
+        select * from t_users
+        where name like concat('%',#{name},'%');
+    </select>
+
+    <!--根据活动id修改相关信息-->
+    <update id="updateUserById" parameterType="study.mybatis01.entity.User">
+        update t_users set
+        name = #{name},password = #{password},sex = #{sex}
+        where id = #{id}
+    </update>
+
+
+</mapper>
